@@ -3,16 +3,15 @@ import SwiftUI
 struct StepFormView: View {
     @State private var stepText = ""
     @Binding var stepNumber: Int
+    @State var isPickerShow = false
+    @State var image = UIImage(systemName: "camera")!
     var body: some View {
         Form {
             HStack {
-                Button {
-                    //
-                } label: {
-                    Text("Шаг \(stepNumber)")
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity)
-                }   .frame(maxWidth: 60, alignment: .leading).cornerRadius(15)
+                Text("Шаг \(stepNumber)")
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: 60, alignment: .leading).cornerRadius(15)
                     .padding(.top, 10)
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
@@ -35,7 +34,7 @@ struct StepFormView: View {
             VStack {
                 Text("Фото шага")
                 Button {
-                    //
+                    isPickerShow.toggle()
                 } label: {
                     VStack(spacing: 10) {
                         Image(systemName: "camera")
@@ -53,6 +52,10 @@ struct StepFormView: View {
                 .padding(.bottom, 20)
                 .background(.yellow)
                 .cornerRadius(15)
+                .sheet(isPresented: $isPickerShow) {
+                    ImagePicker(image: $image)
+                }
+
             }
         }
     }

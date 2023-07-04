@@ -6,15 +6,21 @@ struct CreateRecipeView: View {
     @State private var recipeCategory = ""
     @State private var numberOfServings: Int = 1
     @State private var stepNumber: Int = 1
+    @State var isPickerShow = false
+    @State var recipeImage = UIImage(systemName: "camera")!
+    @State var addedStep = false
+    
+    @StateObject private var createRecipeViewModel = CreateRecipeViewModel()
 
     var body: some View {
         Form {
             Section("Фотография готового блюда") {
+                ZStack {
                 Button {
-                    //
+                    isPickerShow.toggle()
                 } label: {
                     VStack(spacing: 10) {
-                        Image(systemName: "camera")
+                        Image(uiImage: recipeImage)
                             .resizable()
                             .frame(width: 52, height: 42)
                             .foregroundColor(Color(UIColor.darkGray))
@@ -31,6 +37,10 @@ struct CreateRecipeView: View {
                 .background(.yellow)
                 .cornerRadius(15)
                 .padding(20)
+                .sheet(isPresented: $isPickerShow) {
+                    ImagePicker(image: $recipeImage)
+                }
+                }
             }
             Section("Название рецепта") {
                 Row {
@@ -81,15 +91,19 @@ struct CreateRecipeView: View {
                 StepFormView(stepNumber: $stepNumber)
                 Spacer(minLength: 20)
                 Button {
+                    addedStep.toggle()
                     stepNumber.self += 1
                 } label: {
                     Text("+ Добавить шаг")
                         .foregroundColor(.yellow)
+                } .sheet(isPresented: $addedStep) {
+                    StepFormView(stepNumber: $stepNumber)
                 }
+            
             }
             Spacer(minLength: 20)
             Button {
-                //
+                submitInformation()
             } label: {
                 Text("Сохранить рецепт")
                     .foregroundColor(.black)
@@ -102,6 +116,10 @@ struct CreateRecipeView: View {
                 .background(.yellow)
                 .cornerRadius(15)
         }
+    }
+    private func submitInformation() {
+        let recipeData = RecipeData(name: recipeName, recipeDescription: recipeDescription, image: recipeImage, numberOdServings: numberOfServings)
+        createRecipeViewModel.addRecipe()
     }
 }
 
