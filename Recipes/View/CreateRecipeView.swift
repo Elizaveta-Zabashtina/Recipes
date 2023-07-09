@@ -1,16 +1,22 @@
 import SwiftUI
+import RealmSwift
 
 struct CreateRecipeView: View {
     @State private var recipeName: String = ""
     @State private var recipeDescription: String = ""
-    @State private var recipeCategory = ""
+    @State private var recipeCategory: String = ""
     @State private var numberOfServings: Int = 1
     @State private var stepNumber: Int = 1
     @State var isPickerShow = false
+    @State var isListCategoryViewShow = false
+    @State var isAddingIngredientViewShow = false
     @State var recipeImage = UIImage(systemName: "camera")!
     @State var addedStep = false
-    
-    @StateObject private var createRecipeViewModel = CreateRecipeViewModel()
+    @State var showAlert = false
+    @State private var list: [String] = ["jjj"]
+    @EnvironmentObject var listViewModel: ListViewModel
+    @ObservedResults(Recipe.self) var recipes
+    @ObservedResults(RecipeStep.self) var recipeSteps
 
     var body: some View {
         Form {
@@ -20,7 +26,7 @@ struct CreateRecipeView: View {
                     isPickerShow.toggle()
                 } label: {
                     VStack(spacing: 10) {
-                        Image(uiImage: recipeImage)
+                        Image(systemName: "camera")
                             .resizable()
                             .frame(width: 52, height: 42)
                             .foregroundColor(Color(UIColor.darkGray))
@@ -54,15 +60,24 @@ struct CreateRecipeView: View {
             }
             Section("Категория") {
                 Row {
-                    NavigationLink(destination: CategoriesView(), label: {
-                        Text("Например: Суп или десерт")
-                    })
+                    TextField("Например: Десерты", text: $recipeCategory)
+                }
+                Button {
+                    isListCategoryViewShow.toggle()
+                } label: {
+                    Text("Выбрать категорию")
+                        .foregroundColor(.yellow)
+                } .frame(height: 50)
+                .sheet(isPresented: $isListCategoryViewShow) {
+                    ListCategoryView(recipeCategory: $recipeCategory)
                 }
             }
             Section("Порции") {
                 HStack(spacing: 15) {
                     Button {
-                        numberOfServings.self -= 1
+                        if numberOfServings > 1 {
+                            numberOfServings.self -= 1
+                        }
                     } label: {
                         Image(systemName: "minus.circle")
                             .resizable()
@@ -71,7 +86,9 @@ struct CreateRecipeView: View {
                     }
                     Text("\(numberOfServings)")
                     Button {
-                        numberOfServings.self += 1
+                        if numberOfServings < 25 {
+                            numberOfServings.self += 1
+                        }
                     } label: {
                         Image(systemName: "plus.circle")
                             .resizable()
@@ -81,29 +98,47 @@ struct CreateRecipeView: View {
                 }
             }
             Section("Ингредиенты") {
-                Spacer(minLength: 20)
-                    NavigationLink(destination: AddingIngredientView(), label: {
-                        Text("+ Добавить ингредиент")
-                            .foregroundColor(.yellow)
-                    })
+                Button {
+                    isAddingIngredientViewShow.toggle()
+                } label: {
+                    Text("+ Добавить ингредиент")
+                        .foregroundColor(.yellow)
+                } .frame(height: 30)
+                .sheet(isPresented: $isAddingIngredientViewShow) {
+                    AddingIngredientView()
+                }
             }
             Section("Как приготовить") {
-                StepFormView(stepNumber: $stepNumber)
-                Spacer(minLength: 20)
-                Button {
-                    addedStep.toggle()
-                    stepNumber.self += 1
-                } label: {
-                    Text("+ Добавить шаг")
-                        .foregroundColor(.yellow)
-                } .sheet(isPresented: $addedStep) {
-                    StepFormView(stepNumber: $stepNumber)
+                VStack(spacing: 20) {
+                    NavigationView {
+                        List(list, id: \.self) { _ in
+                            StepFormView(stepNumber: stepNumber)
+                        }
+                    }
+                    Button {
+                        self.list.append("kdkdkdk")
+                        stepNumber.self += 1
+                    } label: {
+                        Text("+ Добавить шаг")
+                            .foregroundColor(.yellow)
+                    }
                 }
-            
             }
             Spacer(minLength: 20)
             Button {
-                submitInformation()
+                if recipeName.count == 0 {
+                    showAlert.toggle()
+                } else {
+                    let newRecipe = Recipe()
+                    newRecipe.name = recipeName
+                    newRecipe.recipeDescription = recipeDescription
+                    newRecipe.category.name = recipeCategory
+                    newRecipe.numberOfServings = numberOfServings
+                    $recipes.append(newRecipe)
+                    withAnimation {
+                        listViewModel.isShowCreateView.toggle()
+                    }
+                }
             } label: {
                 Text("Сохранить рецепт")
                     .foregroundColor(.black)
@@ -115,14 +150,9 @@ struct CreateRecipeView: View {
                 .padding(.bottom, 10)
                 .background(.yellow)
                 .cornerRadius(15)
-        }
-    }
-    private func submitInformation() {
-        let recipeData = RecipeData(name: recipeName, recipeDescription: recipeDescription, image: recipeImage, numberOdServings: numberOfServings)
-        createRecipeViewModel.addRecipe()
+        } .alert(Text("Empty fields"), isPresented: $showAlert, actions: {})
     }
 }
-
 struct CreateRecipeView_Previews: PreviewProvider {
     static var previews: some View {
         CreateRecipeView()

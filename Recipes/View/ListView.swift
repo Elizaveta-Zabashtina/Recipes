@@ -1,9 +1,10 @@
 import SwiftUI
+import RealmSwift
 
 struct ListView: View {
     @State var searchText = ""
     @EnvironmentObject var listViewModel: ListViewModel
-    
+    @ObservedResults(Recipe.self) var recipes
     var body: some View {
         ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
             ScrollView(.vertical, showsIndicators: false) {
@@ -19,7 +20,6 @@ struct ListView: View {
                     .padding(.horizontal, 20)
                     .background(Color(UIColor.systemGray6))
                     .cornerRadius(15)
-                    
                     Button {
                         //
                     } label: {
@@ -35,10 +35,11 @@ struct ListView: View {
                             .cornerRadius(15)
                     }
                     VStack(spacing: 20) {
-                        CardItem {
-                            //
+                        ForEach(recipes, id: \.id) { item in
+                            CardItem(cardItem: item) {
+                                $recipes.remove(item)
+                            }
                         }
-                        
                     }
                 }
             }
@@ -60,7 +61,8 @@ struct ListView: View {
 }
 struct CardItem: View {
     @State var offsetX: CGFloat = 0
-    var onDelete: () -> ()
+    var cardItem: Recipe
+    var onDelete: () -> Void
     var body: some View {
         ZStack(alignment: .trailing) {
             removeImage()
@@ -70,24 +72,23 @@ struct CardItem: View {
                     .frame(width: 350, height: 200)
                     .cornerRadius(15)
                     .padding(.horizontal, 20)
-                Text("Бургер")
+                Text(cardItem.name)
                     .textCase(.uppercase)
                     .font(.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 30)
                 HStack {
-                    Image(systemName: "clock.fill")
+                    Image("portionsCount")
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .frame(width: 30, height: 30)
                         .foregroundColor(.yellow)
-                    Text("1 час, 15 минут")
+                    Text(String(cardItem.numberOfServings) + " порций")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)              .padding(.leading, 30)
-                
             }
             .offset(x: offsetX)
             .gesture(DragGesture()
-                .onChanged{ value in
+                .onChanged { value in
                     if value.translation.width < 0 {
                         offsetX = value.translation.width
                     }
@@ -95,6 +96,7 @@ struct CardItem: View {
                 .onEnded { value in
                     withAnimation {
                         if screenSize().width * 0.7 < -value.translation.width {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             withAnimation {
                                 offsetX = -screenSize().width
                                 onDelete()

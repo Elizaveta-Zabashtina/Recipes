@@ -1,15 +1,15 @@
 import Foundation
 import RealmSwift
 
-class RecipeStep: Object {
-    dynamic var id = UUID()
-    dynamic var number = 0
-    dynamic var step = ""
-    dynamic var image = ""
+class RecipeStep: Object, Identifiable {
+    @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted var number = 0
+    @Persisted var step = ""
+    @Persisted var image = ""
     override static func primaryKey() -> String? {
         return "id"
     }
-    convenience init(id: UUID, number: Int, step: String, image: String) {
+    convenience init(id: ObjectId, number: Int, step: String, image: String) {
         self.init()
         self.id = id
         self.number = number

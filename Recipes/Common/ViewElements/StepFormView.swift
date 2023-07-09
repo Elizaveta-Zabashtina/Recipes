@@ -2,9 +2,10 @@ import SwiftUI
 
 struct StepFormView: View {
     @State private var stepText = ""
-    @Binding var stepNumber: Int
+    @State var stepNumber = 0
     @State var isPickerShow = false
     @State var image = UIImage(systemName: "camera")!
+   // var onDelete: () -> Void
     var body: some View {
         Form {
             HStack {
@@ -20,7 +21,7 @@ struct StepFormView: View {
                     .cornerRadius(15)
                 Spacer()
                 Button {
-                    //
+                   // onDelete()
                 } label: {
                     Image(systemName: "trash")
                         .resizable()
@@ -57,12 +58,12 @@ struct StepFormView: View {
                 }
 
             }
-        }
+        } 
     }
 }
 
-struct StepFormView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepFormView(stepNumber: .constant(1))
-    }
-}
+//struct StepFormView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StepFormView(stepNumber: .constant(1))
+//    }
+//}
