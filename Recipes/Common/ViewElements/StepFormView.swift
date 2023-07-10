@@ -56,14 +56,7 @@ struct StepFormView: View {
                 .sheet(isPresented: $isPickerShow) {
                     ImagePicker(image: $image)
                 }
-
             }
-        } 
+        }
     }
 }
-
-//struct StepFormView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StepFormView(stepNumber: .constant(1))
-//    }
-//}

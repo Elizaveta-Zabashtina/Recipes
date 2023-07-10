@@ -9,7 +9,7 @@ class Recipe: Object, Identifiable {
     @Persisted var numberOfServings = 0
     @Persisted var created = Date()
     @Persisted var category: Category!
-    var ingridients = List<Ingredient>()
+    var ingredients = List<Ingredient>()
     var steps = List<RecipeStep>()
     override static func primaryKey() -> String? {
         return "id"

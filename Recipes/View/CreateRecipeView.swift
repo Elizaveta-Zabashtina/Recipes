@@ -7,17 +7,19 @@ struct CreateRecipeView: View {
     @State private var recipeCategory: String = ""
     @State private var numberOfServings: Int = 1
     @State private var stepNumber: Int = 1
+    @State private var recipeIngredient = Ingredient()
+    @State private var recipeIngredients: [Ingredient] = []
     @State var isPickerShow = false
     @State var isListCategoryViewShow = false
     @State var isAddingIngredientViewShow = false
     @State var recipeImage = UIImage(systemName: "camera")!
     @State var addedStep = false
     @State var showAlert = false
-    @State private var list: [String] = ["jjj"]
+    @State private var list: [String] = [""]
     @EnvironmentObject var listViewModel: ListViewModel
+    @EnvironmentObject var addingIngredientViewModel: AddingIngredientViewModel
     @ObservedResults(Recipe.self) var recipes
     @ObservedResults(RecipeStep.self) var recipeSteps
-
     var body: some View {
         Form {
             Section("Фотография готового блюда") {
@@ -98,14 +100,28 @@ struct CreateRecipeView: View {
                 }
             }
             Section("Ингредиенты") {
-                Button {
-                    isAddingIngredientViewShow.toggle()
-                } label: {
-                    Text("+ Добавить ингредиент")
-                        .foregroundColor(.yellow)
-                } .frame(height: 30)
-                .sheet(isPresented: $isAddingIngredientViewShow) {
-                    AddingIngredientView()
+                VStack(spacing: 20) {
+                    ForEach(recipeIngredients) { ingredient in
+                        VStack(alignment: .leading) {
+                            Row {
+                                Text("\(ingredient.name), \(ingredient.measure) ")
+                            }
+                        }
+                        .lineLimit(1)
+                    }
+                    Button {
+                        if addingIngredientViewModel.saveIngredientButton {
+                            recipeIngredients.append(recipeIngredient)
+                            addingIngredientViewModel.saveIngredientButton.toggle()
+                        }
+                        isAddingIngredientViewShow.toggle()
+                    } label: {
+                        Text("+ Добавить ингредиент")
+                            .foregroundColor(.yellow)
+                    } .frame(height: 30)
+                        .sheet(isPresented: $isAddingIngredientViewShow) {
+                            AddingIngredientView(recipeIngredient: $recipeIngredient)
+                        }
                 }
             }
             Section("Как приготовить") {
@@ -126,7 +142,7 @@ struct CreateRecipeView: View {
             }
             Spacer(minLength: 20)
             Button {
-                if recipeName.count == 0 {
+                if recipeName.count == 0, recipeDescription.count == 0 {
                     showAlert.toggle()
                 } else {
                     let newRecipe = Recipe()
@@ -150,7 +166,7 @@ struct CreateRecipeView: View {
                 .padding(.bottom, 10)
                 .background(.yellow)
                 .cornerRadius(15)
-        } .alert(Text("Empty fields"), isPresented: $showAlert, actions: {})
+        } .alert(Text("Пустые поля!"), isPresented: $showAlert, actions: {})
     }
 }
 struct CreateRecipeView_Previews: PreviewProvider {
