@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct AddingIngredientView: View {
-    @Binding var recipeIngredient: Ingredient
+    @State private var recipeIngredient = Ingredient()
+    @Binding var recipeIngredients: [Ingredient]
     @EnvironmentObject var addingIngredientViewModel: AddingIngredientViewModel
     @State var showAlert = false
     var body: some View {
@@ -20,6 +21,7 @@ struct AddingIngredientView: View {
                     showAlert.toggle()
                 } else {
                     addingIngredientViewModel.saveIngredientButton.toggle()
+                    recipeIngredients.append(recipeIngredient)
                 }
             } label: {
                 Text("Добавить ингредиент")

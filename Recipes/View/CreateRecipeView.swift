@@ -7,7 +7,6 @@ struct CreateRecipeView: View {
     @State private var recipeCategory: String = ""
     @State private var numberOfServings: Int = 1
     @State private var stepNumber: Int = 1
-    @State private var recipeIngredient = Ingredient()
     @State private var recipeIngredients: [Ingredient] = []
     @State var isPickerShow = false
     @State var isListCategoryViewShow = false
@@ -110,17 +109,13 @@ struct CreateRecipeView: View {
                         .lineLimit(1)
                     }
                     Button {
-                        if addingIngredientViewModel.saveIngredientButton {
-                            recipeIngredients.append(recipeIngredient)
-                            addingIngredientViewModel.saveIngredientButton.toggle()
-                        }
                         isAddingIngredientViewShow.toggle()
                     } label: {
                         Text("+ Добавить ингредиент")
                             .foregroundColor(.yellow)
                     } .frame(height: 30)
                         .sheet(isPresented: $isAddingIngredientViewShow) {
-                            AddingIngredientView(recipeIngredient: $recipeIngredient)
+                            AddingIngredientView(recipeIngredients: $recipeIngredients)
                         }
                 }
             }
@@ -150,6 +145,7 @@ struct CreateRecipeView: View {
                     newRecipe.recipeDescription = recipeDescription
                     newRecipe.category.name = recipeCategory
                     newRecipe.numberOfServings = numberOfServings
+                    newRecipe.ingredients.append(objectsIn: recipeIngredients)
                     $recipes.append(newRecipe)
                     withAnimation {
                         listViewModel.isShowCreateView.toggle()
