@@ -99,7 +99,9 @@ struct CreateRecipeView: View {
                 VStack(spacing: 20) {
                     ForEach(recipeIngredients) { ingredient in
                         VStack(alignment: .leading) {
+                            Row {
                                 Text("\(ingredient.name), \(ingredient.measure) ")
+                            }
                         }
                         .lineLimit(1)
                     }
@@ -149,7 +151,7 @@ struct CreateRecipeView: View {
             }
             Spacer(minLength: 20)
             Button {
-                if recipeName.count == 0, recipeDescription.count == 0, recipeCategory.count == 0 {
+                if recipeName.count == 0, recipeDescription.count == 0, recipeCategory == "Не выбрана" {
                     showAlert.toggle()
                 } else {
                     let newRecipe = Recipe()

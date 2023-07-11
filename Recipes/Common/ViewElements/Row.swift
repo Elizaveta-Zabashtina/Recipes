@@ -7,7 +7,7 @@ struct Row<Content: View>: View {
     }
     var body: some View {
         HStack(content: content)
-            .frame(minHeight: 40)
+            .frame(minWidth: 370, minHeight: 40)
             .padding(.leading)
             .padding(.trailing)
             .padding(.top, 8)
