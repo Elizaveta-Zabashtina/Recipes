@@ -10,13 +10,13 @@ struct CreateRecipeView: View {
     @State private var recipeIngredients: [Ingredient] = []
     @State var isPickerShow = false
     @State var isListCategoryViewShow = false
-    @State var isAddingIngredientViewShow = false
+ //   @State var isAddingIngredientViewShow = false
     @State var recipeImage = UIImage(systemName: "camera")!
     @State var addedStep = false
     @State var showAlert = false
     @State private var list: [String] = [""]
     @EnvironmentObject var listViewModel: ListViewModel
-    @EnvironmentObject var addingIngredientViewModel: AddingIngredientViewModel
+    @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @ObservedResults(Recipe.self) var recipes
     @ObservedResults(RecipeStep.self) var recipeSteps
     var body: some View {
@@ -102,19 +102,17 @@ struct CreateRecipeView: View {
                 VStack(spacing: 20) {
                     ForEach(recipeIngredients) { ingredient in
                         VStack(alignment: .leading) {
-                            Row {
                                 Text("\(ingredient.name), \(ingredient.measure) ")
-                            }
                         }
                         .lineLimit(1)
                     }
                     Button {
-                        isAddingIngredientViewShow.toggle()
+                        createRecipeViewModel.isAddingIngredientViewShow.toggle()
                     } label: {
                         Text("+ Добавить ингредиент")
                             .foregroundColor(.yellow)
                     } .frame(height: 30)
-                        .sheet(isPresented: $isAddingIngredientViewShow) {
+                        .sheet(isPresented: $createRecipeViewModel.isAddingIngredientViewShow) {
                             AddingIngredientView(recipeIngredients: $recipeIngredients)
                         }
                 }

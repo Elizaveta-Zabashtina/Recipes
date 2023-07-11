@@ -3,7 +3,7 @@ import SwiftUI
 struct AddingIngredientView: View {
     @State private var recipeIngredient = Ingredient()
     @Binding var recipeIngredients: [Ingredient]
-    @EnvironmentObject var addingIngredientViewModel: AddingIngredientViewModel
+    @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @State var showAlert = false
     var body: some View {
         Form {
@@ -20,7 +20,7 @@ struct AddingIngredientView: View {
                 if recipeIngredient.name.count == 0, recipeIngredient.measure.count == 0 {
                     showAlert.toggle()
                 } else {
-                    addingIngredientViewModel.saveIngredientButton.toggle()
+                    createRecipeViewModel.isAddingIngredientViewShow.toggle()
                     recipeIngredients.append(recipeIngredient)
                 }
             } label: {
