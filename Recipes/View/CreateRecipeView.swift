@@ -4,21 +4,18 @@ import RealmSwift
 struct CreateRecipeView: View {
     @State private var recipeName: String = ""
     @State private var recipeDescription: String = ""
-    @State private var recipeCategory: String = ""
+    @State private var recipeCategory: String = "Не выбрана"
     @State private var numberOfServings: Int = 1
-    @State private var stepNumber: Int = 1
+    @State var stepNumber: Int = 1
     @State private var recipeIngredients: [Ingredient] = []
+    @State private var recipeSteps: [RecipeStep] = []
     @State var isPickerShow = false
-    @State var isListCategoryViewShow = false
- //   @State var isAddingIngredientViewShow = false
     @State var recipeImage = UIImage(systemName: "camera")!
-    @State var addedStep = false
     @State var showAlert = false
     @State private var list: [String] = [""]
     @EnvironmentObject var listViewModel: ListViewModel
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @ObservedResults(Recipe.self) var recipes
-    @ObservedResults(RecipeStep.self) var recipeSteps
     var body: some View {
         Form {
             Section("Фотография готового блюда") {
@@ -61,15 +58,15 @@ struct CreateRecipeView: View {
             }
             Section("Категория") {
                 Row {
-                    TextField("Например: Десерты", text: $recipeCategory)
+                    Text(recipeCategory)
                 }
                 Button {
-                    isListCategoryViewShow.toggle()
+                    createRecipeViewModel.isListCategoryViewShow.toggle()
                 } label: {
                     Text("Выбрать категорию")
                         .foregroundColor(.yellow)
                 } .frame(height: 50)
-                .sheet(isPresented: $isListCategoryViewShow) {
+                    .sheet(isPresented: $createRecipeViewModel.isListCategoryViewShow) {
                     ListCategoryView(recipeCategory: $recipeCategory)
                 }
             }
@@ -118,24 +115,41 @@ struct CreateRecipeView: View {
                 }
             }
             Section("Как приготовить") {
+//                VStack(spacing: 20) {
+//                    NavigationView {
+//                        List(list, id: \.self) { _ in
+//                            StepFormView(stepNumber: stepNumber)
+//                        }
+//                    }
+//                    Button {
+//                        self.list.append("kdkdkdk")
+//                        stepNumber.self += 1
+//                    } label: {
+//                        Text("+ Добавить шаг")
+//                            .foregroundColor(.yellow)
+//                    }
+//                }
                 VStack(spacing: 20) {
-                    NavigationView {
-                        List(list, id: \.self) { _ in
-                            StepFormView(stepNumber: stepNumber)
+                    ForEach(recipeSteps) { step in
+                        VStack(alignment: .leading) {
+                                Text(step.step)
                         }
+                        .lineLimit(1)
                     }
                     Button {
-                        self.list.append("kdkdkdk")
-                        stepNumber.self += 1
+                        createRecipeViewModel.isStepFormViewShow.toggle()
                     } label: {
                         Text("+ Добавить шаг")
                             .foregroundColor(.yellow)
-                    }
+                    } .frame(height: 30)
+                        .sheet(isPresented: $createRecipeViewModel.isStepFormViewShow) {
+                            StepFormView(stepNumber: stepNumber)
+                        }
                 }
             }
             Spacer(minLength: 20)
             Button {
-                if recipeName.count == 0, recipeDescription.count == 0 {
+                if recipeName.count == 0, recipeDescription.count == 0, recipeCategory.count == 0 {
                     showAlert.toggle()
                 } else {
                     let newRecipe = Recipe()

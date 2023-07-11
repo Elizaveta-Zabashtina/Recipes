@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct StepFormView: View {
-    @State private var stepText = ""
-    @State var stepNumber = 0
+    @State var stepNumber: Int
+    @State var text = ""
     @State var isPickerShow = false
     @State var image = UIImage(systemName: "camera")!
+//    @Binding var recipeSteps: [RecipeStep]
+ //   @State private var recipeStep = RecipeStep()
    // var onDelete: () -> Void
     var body: some View {
         Form {
@@ -30,7 +32,7 @@ struct StepFormView: View {
                 }
             } .padding(20)
             Row {
-                TextField("Например: Почистите овощи", text: $stepText)
+                TextField("Например: Почистите овощи", text: $text)
             }
             VStack {
                 Text("Фото шага")

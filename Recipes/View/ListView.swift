@@ -14,8 +14,8 @@ struct ListView: View {
                             .resizable()
                             .frame(width: 15, height: 15)
                         TextField("Поиск по ингредиентам", text: $searchText)
+                            .frame(width: 300)
                     }
-                    .frame(width: 300)
                     .padding(.vertical, 16)
                     .padding(.horizontal, 20)
                     .background(Color(UIColor.systemGray6))
@@ -28,6 +28,7 @@ struct ListView: View {
                                 .resizable()
                                 .frame(width: 15, height: 15)
                             Text("Фильтры")
+                                .frame(width: 300)
                         } .foregroundColor(.yellow)
                             .padding(.vertical, 16)
                             .padding(.horizontal, 20)
@@ -62,51 +63,58 @@ struct ListView: View {
 struct CardItem: View {
     @State var offsetX: CGFloat = 0
     var cardItem: Recipe
+    @EnvironmentObject var listViewModel: ListViewModel
     var onDelete: () -> Void
     var body: some View {
         ZStack(alignment: .trailing) {
             removeImage()
-            VStack(spacing: 10) {
-                Image("burger")
-                    .resizable()
-                    .frame(width: 350, height: 200)
-                    .cornerRadius(15)
-                    .padding(.horizontal, 20)
-                Text(cardItem.name)
-                    .textCase(.uppercase)
-                    .font(.title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 30)
-                HStack {
-                    Image("portionsCount")
+            Button {
+                listViewModel.isShowRecipeInfromationView.toggle()
+            } label: {
+                VStack(spacing: 10) {
+                    Image("burger")
                         .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.yellow)
-                    Text(String(cardItem.numberOfServings) + " порций")
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)              .padding(.leading, 30)
-            }
-            .offset(x: offsetX)
-            .gesture(DragGesture()
-                .onChanged { value in
-                    if value.translation.width < 0 {
-                        offsetX = value.translation.width
+                        .frame(width: 350, height: 200)
+                        .cornerRadius(15)
+                        .padding(.horizontal, 20)
+                    Text(cardItem.name)
+                        .textCase(.uppercase)
+                        .font(.title)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 30)
+                        .foregroundColor(.black)
+                    HStack {
+                        Image("portionsCount")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.yellow)
+                        Text(String(cardItem.numberOfServings) + " порций")
+                            .foregroundColor(.black)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)              .padding(.leading, 30)
                 }
-                .onEnded { value in
-                    withAnimation {
-                        if screenSize().width * 0.7 < -value.translation.width {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                            withAnimation {
-                                offsetX = -screenSize().width
-                                onDelete()
-                            }
-                        } else {
-                            offsetX = .zero
+                .offset(x: offsetX)
+                .gesture(DragGesture()
+                    .onChanged { value in
+                        if value.translation.width < 0 {
+                            offsetX = value.translation.width
                         }
                     }
-                }
-            )
+                    .onEnded { value in
+                        withAnimation {
+                            if screenSize().width * 0.7 < -value.translation.width {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                withAnimation {
+                                    offsetX = -screenSize().width
+                                    onDelete()
+                                }
+                            } else {
+                                offsetX = .zero
+                            }
+                        }
+                    }
+                )
+            }
         }
     }
     @ViewBuilder

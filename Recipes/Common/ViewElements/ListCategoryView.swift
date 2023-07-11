@@ -4,6 +4,7 @@ import RealmSwift
 struct ListCategoryView: View {
     @State var text = ""
     @ObservedResults(Category.self) var categories
+    @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @Binding var recipeCategory: String
     var body: some View {
         NavigationView {
@@ -11,6 +12,7 @@ struct ListCategoryView: View {
                 ForEach(categories) { category in
                     Button {
                         self.recipeCategory = category.name
+                        createRecipeViewModel.isListCategoryViewShow.toggle()
                     } label: {
                         Text(category.name)
                             .foregroundColor(.yellow)
