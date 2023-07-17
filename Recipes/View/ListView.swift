@@ -6,57 +6,48 @@ struct ListView: View {
     @EnvironmentObject var listViewModel: ListViewModel
     @ObservedResults(Recipe.self) var recipes
     var body: some View {
-        ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 10) {
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .frame(width: 15, height: 15)
-                        TextField("Поиск по ингредиентам", text: $searchText)
-                            .frame(width: 300)
-                    }
-                    .padding(.vertical, 16)
-                    .padding(.horizontal, 20)
-                    .background(Color(UIColor.systemGray6))
-                    .cornerRadius(15)
-                    Button {
-                        //
-                    } label: {
-                        HStack {
-                            Image(systemName: "slider.horizontal.3")
-                                .resizable()
-                                .frame(width: 15, height: 15)
-                            Text("Фильтры")
-                                .frame(width: 300)
-                        } .foregroundColor(.yellow)
-                            .padding(.vertical, 16)
-                            .padding(.horizontal, 20)
-                            .background(Color(UIColor.systemGray6))
-                            .cornerRadius(15)
-                    }
-                    VStack(spacing: 20) {
-                        ForEach(recipes, id: \.id) { item in
-                            CardItem(cardItem: item) {
-                                $recipes.remove(item)
+        NavigationStack {
+            ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 10) {
+                        Button {
+                            //
+                        } label: {
+                            HStack {
+                                Image(systemName: "slider.horizontal.3")
+                                    .resizable()
+                                    .frame(width: 15, height: 15)
+                                Text("Фильтры")
+                                    .frame(width: 300)
+                            } .foregroundColor(.yellow)
+                                .padding(.vertical, 16)
+                                .padding(.horizontal, 20)
+                                .background(Color(UIColor.systemGray6))
+                                .cornerRadius(15)
+                        }
+                        VStack(spacing: 20) {
+                            ForEach(recipes, id: \.id) { item in
+                                CardItem(cardItem: item) {
+                                    $recipes.remove(item)
+                                }
                             }
                         }
+                    } .searchable(text: $searchText, collection: $recipes, keyPath: \.name)
+                }
+                NavigationLink {
+                   CreateRecipeView()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .frame(width: 56, height: 56)
+                            .foregroundColor(.yellow)
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.white)
                     }
-                }
+                } .offset(x: -20, y: -1)
             }
-            Button {
-                listViewModel.isShowCreateView.toggle()
-            } label: {
-                ZStack {
-                    Circle()
-                        .frame(width: 56, height: 56)
-                        .foregroundColor(.yellow)
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(.white)
-                }
-            }.offset(x: -20, y: -1)
         }
     }
 }

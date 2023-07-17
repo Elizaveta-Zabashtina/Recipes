@@ -35,6 +35,7 @@
 		7447BA6B2A4EC30E00CE11DE /* AddingIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7447BA6A2A4EC30E00CE11DE /* AddingIngredientView.swift */; };
 		7466D6BB2A5D44150001CBB7 /* CreateRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7466D6BA2A5D44150001CBB7 /* CreateRecipeViewModel.swift */; };
 		7466D6BF2A5D5B7F0001CBB7 /* RecipeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7466D6BE2A5D5B7F0001CBB7 /* RecipeInformationView.swift */; };
+		7466D6CA2A653C040001CBB7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7466D6C92A653C040001CBB7 /* UIImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		7447BA6A2A4EC30E00CE11DE /* AddingIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingIngredientView.swift; sourceTree = "<group>"; };
 		7466D6BA2A5D44150001CBB7 /* CreateRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewModel.swift; sourceTree = "<group>"; };
 		7466D6BE2A5D5B7F0001CBB7 /* RecipeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeInformationView.swift; sourceTree = "<group>"; };
+		7466D6C92A653C040001CBB7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 		7447BA312A49F4A400CE11DE /* Recipes */ = {
 			isa = PBXGroup;
 			children = (
+				7466D6C22A63FEBD0001CBB7 /* Extensions */,
 				74181EB12A534A8700A4E737 /* Common */,
 				7447BA462A49FB0400CE11DE /* ViewModel */,
 				7447BA452A49FAFE00CE11DE /* View */,
@@ -175,6 +178,14 @@
 				7466D6BA2A5D44150001CBB7 /* CreateRecipeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7466D6C22A63FEBD0001CBB7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7466D6C92A653C040001CBB7 /* UIImage.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +292,7 @@
 				7447BA432A49F6D900CE11DE /* LoginViewModel.swift in Sources */,
 				7447BA652A4E202000CE11DE /* AppColor.swift in Sources */,
 				74181EB92A543F3E00A4E737 /* ListView.swift in Sources */,
+				7466D6CA2A653C040001CBB7 /* UIImage.swift in Sources */,
 				7447BA632A4E1FDA00CE11DE /* Section.swift in Sources */,
 				7447BA672A4E212200CE11DE /* Row.swift in Sources */,
 				74181EA72A4ECE9400A4E737 /* RecipeStep.swift in Sources */,

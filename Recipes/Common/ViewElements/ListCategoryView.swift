@@ -5,14 +5,13 @@ struct ListCategoryView: View {
     @State var text = ""
     @ObservedResults(Category.self) var categories
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
-    @Binding var recipeCategory: String
+    @Binding var recipeCategory: Category
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(categories) { category in
                     Button {
-                        self.recipeCategory = category.name
-                        createRecipeViewModel.isListCategoryViewShow.toggle()
+                        self.recipeCategory = category
                     } label: {
                         Text(category.name)
                             .foregroundColor(.yellow)
@@ -20,10 +19,5 @@ struct ListCategoryView: View {
                 }
             } .navigationTitle("Категории")
         }
-    }
-}
-struct ListCategoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        ListCategoryView(recipeCategory: .constant("Десерты"))
     }
 }

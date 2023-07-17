@@ -20,7 +20,6 @@ struct AddingIngredientView: View {
                 if recipeIngredient.name.count == 0, recipeIngredient.measure.count == 0 {
                     showAlert.toggle()
                 } else {
-                    createRecipeViewModel.isAddingIngredientViewShow.toggle()
                     recipeIngredients.append(recipeIngredient)
                 }
             } label: {

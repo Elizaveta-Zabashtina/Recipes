@@ -3,15 +3,20 @@ import Foundation
 
 struct RecipeInformationView: View {
     @State private var recipe = Recipe()
-    private let dateFormatter = DateFormatter()
+    @EnvironmentObject var listViewModel: ListViewModel
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
+                Button {
+                    listViewModel.isShowRecipeInfromationView.toggle()
+                } label: {
+                    Image(systemName: "multiply.circle.fill")
+                }
                 Image(systemName: "camera")
                     .resizable()
                     .frame(width: 350, height: 250)
                 Spacer()
-                Text(dateFormatter.string(from: recipe.created))
+                Text(calculateDate(date: recipe.created))
                     .font(.footnote)
                     .fontWeight(.thin)
                     .textCase(.uppercase)
@@ -40,14 +45,22 @@ struct RecipeInformationView: View {
                 Text("Пошаговый рецепт")
                     .font(.title3)
                     .fontWeight(.bold)
-                VStack(spacing: 15) {
-                    ForEach(recipe.steps, id: \.id) { step in
-                        StepCardItem(step: step)
-                        Divider()
-                    }
+            }
+            VStack(spacing: 15) {
+                ForEach(recipe.steps, id: \.id) { step in
+                    StepCardItem(step: step)
+                    Divider()
                 }
             }
         }
+    }
+    private func calculateDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
 }
 struct StepCardItem: View {

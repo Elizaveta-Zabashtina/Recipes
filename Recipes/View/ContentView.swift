@@ -12,8 +12,12 @@ struct ContentView: View {
                         .environmentObject(listViewModel)
                         .environmentObject(createRecipeViewModel)
                 } else {
-                    ListView()
-                        .environmentObject(listViewModel)
+                    if listViewModel.isShowRecipeInfromationView {
+                        RecipeInformationView()
+                    } else {
+                        ListView()
+                            .environmentObject(listViewModel)
+                    }
                 }
             }
 //        } else {
