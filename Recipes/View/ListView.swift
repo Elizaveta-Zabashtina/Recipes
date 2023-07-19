@@ -33,7 +33,7 @@ struct ListView: View {
                             }
                         }
                     }
-                } 
+                }
                 NavigationLink {
                    CreateRecipeView()
                 } label: {

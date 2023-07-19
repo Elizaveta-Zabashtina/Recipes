@@ -137,19 +137,20 @@ struct CreateRecipeView: View {
                 }
                 Spacer(minLength: 20)
                 Button {
-                    if recipeName.count == 0, recipeDescription.count == 0, recipeSteps.count == 0, recipeIngredients.count == 0  {
+                    if recipeName.count == 0, recipeDescription.count == 0,
+                        recipeSteps.count == 0, recipeIngredients.count == 0 {
                         showAlert.toggle()
                     } else {
                         let newRecipe = Recipe()
-                        let path = "images/recipes/\(newRecipe.id).jpg"
-                        guard (recipeImage?.save(at: .documentDirectory,
-                                                 pathAndImageName: path)) != nil else { return }
+//                        let path = "images/recipes/\(newRecipe.id).jpg"
+//                        guard (recipeImage?.save(at: .documentDirectory,
+//                                                 pathAndImageName: path)) != nil else { return }
                         let todayDate = Date()
                         newRecipe.created = todayDate
                         newRecipe.name = recipeName
                         newRecipe.recipeDescription = recipeDescription
-                        newRecipe.image = path
-                        newRecipe.category = recipeCategory
+//                        newRecipe.image = path
+      //                  newRecipe.category = recipeCategory
                         newRecipe.numberOfServings = numberOfServings
                         newRecipe.steps.append(objectsIn: recipeSteps)
                         newRecipe.ingredients.append(objectsIn: recipeIngredients)

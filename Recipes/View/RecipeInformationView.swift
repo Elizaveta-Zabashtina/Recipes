@@ -82,4 +82,3 @@ struct StepCardItem: View {
             }
     }
 }
-
