@@ -2,17 +2,12 @@ import SwiftUI
 import Foundation
 
 struct RecipeInformationView: View {
-    @State private var recipe = Recipe()
+    @State var recipe: Recipe
     @EnvironmentObject var listViewModel: ListViewModel
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                Button {
-                    listViewModel.isShowRecipeInfromationView.toggle()
-                } label: {
-                    Image(systemName: "multiply.circle.fill")
-                }
-                Image(systemName: "camera")
+                Image(recipe.image)
                     .resizable()
                     .frame(width: 350, height: 250)
                 Spacer()
@@ -23,7 +18,8 @@ struct RecipeInformationView: View {
                 Text(recipe.name)
                     .font(.title)
                     .fontWeight(.bold)
-                Text(recipe.description)                    .font(.body)
+                Text(recipe.recipeDescription)
+                    .font(.body)
                     .fontWeight(.regular)
                     .multilineTextAlignment(.leading)
                 VStack {
@@ -86,8 +82,4 @@ struct StepCardItem: View {
             }
     }
 }
-struct RecipeInformationView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeInformationView()
-    }
-}
+

@@ -37,7 +37,25 @@ extension UIImage {
             return nil
         }
     }
+//    func getSavedImage(named: String) -> UIImage? {
+//        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+//            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(named).path)
+//        }
+//        return nil
+//    }
+//    func getImageFromName(fileName: String) {
+//        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        let url = documentsDirectory.appendingPathComponent(fileName)
+//
+//        if let imageData = try? Data(contentsOf: url) {
+//            let image = UIImage(data: imageData) // HERE IS YOUR IMAGE! Do what you want with it!
+//
+//        } else {
+//            print("Couldn't get image for \(fileName)")
+//        }
+//    }
 }
+
 // load from path
 extension UIImage {
     convenience init?(fileURLWithPath url: URL, scale: CGFloat = 1.0) {

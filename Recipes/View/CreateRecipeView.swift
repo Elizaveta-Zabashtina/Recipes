@@ -2,7 +2,6 @@ import SwiftUI
 import RealmSwift
 
 struct CreateRecipeView: View {
-    @State private var selection: String? = nil
     @State private var recipeName: String = ""
     @State private var recipeDescription: String = ""
     @State private var recipeCategory = Category()
@@ -128,7 +127,7 @@ struct CreateRecipeView: View {
                             }
                             Divider()
                         }
-                        NavigationLink() {
+                        NavigationLink {
                             StepFormView(recipeSteps: $recipeSteps)
                         } label: {
                             Text("+ Добавить шаг")
@@ -138,13 +137,13 @@ struct CreateRecipeView: View {
                 }
                 Spacer(minLength: 20)
                 Button {
-                    if recipeName.count == 0, recipeDescription.count == 0, recipeCategory.name.count == 0 {
+                    if recipeName.count == 0, recipeDescription.count == 0, recipeSteps.count == 0, recipeIngredients.count == 0  {
                         showAlert.toggle()
                     } else {
                         let newRecipe = Recipe()
                         let path = "images/recipes/\(newRecipe.id).jpg"
-                     //   guard (recipeImage?.save(at: .documentDirectory,
-                      //                           pathAndImageName: path)) != nil else { return }
+                        guard (recipeImage?.save(at: .documentDirectory,
+                                                 pathAndImageName: path)) != nil else { return }
                         let todayDate = Date()
                         newRecipe.created = todayDate
                         newRecipe.name = recipeName
@@ -152,11 +151,9 @@ struct CreateRecipeView: View {
                         newRecipe.image = path
                         newRecipe.category = recipeCategory
                         newRecipe.numberOfServings = numberOfServings
-                        //                  newRecipe.ingredients.append(objectsIn: recipeIngredients)
+                        newRecipe.steps.append(objectsIn: recipeSteps)
+                        newRecipe.ingredients.append(objectsIn: recipeIngredients)
                         $recipes.append(newRecipe)
-                        withAnimation {
-                            listViewModel.isShowCreateView.toggle()
-                        }
                     }
                 } label: {
                     Text("Сохранить рецепт")

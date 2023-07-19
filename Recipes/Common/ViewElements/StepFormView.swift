@@ -2,7 +2,6 @@ import SwiftUI
 import RealmSwift
 
 struct StepFormView: View {
-    //   @State var stepNumber: Int
     @State var isPickerShow = false
     @State var showAlert = false
     @State var image: UIImage?

@@ -24,7 +24,7 @@ struct ListView: View {
                                 .padding(.horizontal, 20)
                                 .background(Color(UIColor.systemGray6))
                                 .cornerRadius(15)
-                        }
+                        } .searchable(text: $searchText, collection: $recipes, keyPath: \.name)
                         VStack(spacing: 20) {
                             ForEach(recipes, id: \.id) { item in
                                 CardItem(cardItem: item) {
@@ -32,8 +32,8 @@ struct ListView: View {
                                 }
                             }
                         }
-                    } .searchable(text: $searchText, collection: $recipes, keyPath: \.name)
-                }
+                    }
+                } 
                 NavigationLink {
                    CreateRecipeView()
                 } label: {
@@ -57,54 +57,57 @@ struct CardItem: View {
     @EnvironmentObject var listViewModel: ListViewModel
     var onDelete: () -> Void
     var body: some View {
-        ZStack(alignment: .trailing) {
-            removeImage()
-            Button {
-                listViewModel.isShowRecipeInfromationView.toggle()
-            } label: {
-                VStack(spacing: 10) {
-                    Image("burger")
-                        .resizable()
-                        .frame(width: 350, height: 200)
-                        .cornerRadius(15)
-                        .padding(.horizontal, 20)
-                    Text(cardItem.name)
-                        .textCase(.uppercase)
-                        .font(.title)
+        NavigationView {
+            ZStack(alignment: .trailing) {
+                removeImage()
+                NavigationLink {
+                    RecipeInformationView(recipe: cardItem)
+                } label: {
+                    VStack(spacing: 10) {
+                        Image(cardItem.image)
+                            .resizable()
+                            .frame(width: 350, height: 200)
+                            .cornerRadius(15)
+                            .padding(.horizontal, 20)
+                        Text(cardItem.name)
+                            .textCase(.uppercase)
+                            .font(.title)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 30)
+                            .foregroundColor(.black)
+                        HStack {
+                            Image("portionsCount")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.yellow)
+                            Text(String(cardItem.numberOfServings) + " порций")
+                                .foregroundColor(.black)
+                        }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 30)
-                        .foregroundColor(.black)
-                    HStack {
-                        Image("portionsCount")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.yellow)
-                        Text(String(cardItem.numberOfServings) + " порций")
-                            .foregroundColor(.black)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)              .padding(.leading, 30)
-                }
-                .offset(x: offsetX)
-                .gesture(DragGesture()
-                    .onChanged { value in
-                        if value.translation.width < 0 {
-                            offsetX = value.translation.width
-                        }
-                    }
-                    .onEnded { value in
-                        withAnimation {
-                            if screenSize().width * 0.7 < -value.translation.width {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                withAnimation {
-                                    offsetX = -screenSize().width
-                                    onDelete()
-                                }
-                            } else {
-                                offsetX = .zero
+                    .offset(x: offsetX)
+                    .gesture(DragGesture()
+                        .onChanged { value in
+                            if value.translation.width < 0 {
+                                offsetX = value.translation.width
                             }
                         }
-                    }
-                )
+                        .onEnded { value in
+                            withAnimation {
+                                if screenSize().width * 0.7 < -value.translation.width {
+                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                    withAnimation {
+                                        offsetX = -screenSize().width
+                                        onDelete()
+                                    }
+                                } else {
+                                    offsetX = .zero
+                                }
+                            }
+                        }
+                    )
+                }
             }
         }
     }
@@ -120,11 +123,6 @@ struct CardItem: View {
     }
 }
 
-struct ListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ListView()
-    }
-}
 extension View {
     func screenSize() -> CGSize {
         guard let window = UIApplication.shared.connectedScenes.first as?
