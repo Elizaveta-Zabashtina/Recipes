@@ -1,8 +1,10 @@
 import SwiftUI
+import RealmSwift
 
 struct AddingIngredientView: View {
     @State private var recipeIngredient = Ingredient()
     @Binding var recipeIngredients: [Ingredient]
+    @ObservedResults(Ingredient.self) var ingredients
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @State var showAlert = false
     var body: some View {
@@ -12,7 +14,7 @@ struct AddingIngredientView: View {
                     TextField("Например: Курица", text: $recipeIngredient.name)
                 }
                 Row {
-                    TextField("Например: 1 шт. или 2 кг.", text: $recipeIngredient.measure)
+                    TextField("Количество", text: $recipeIngredient.measure)
                 }
             }
             Spacer(minLength: 30)
@@ -20,6 +22,7 @@ struct AddingIngredientView: View {
                 if recipeIngredient.name.count == 0, recipeIngredient.measure.count == 0 {
                     showAlert.toggle()
                 } else {
+                    $ingredients.append(recipeIngredient)
                     recipeIngredients.append(recipeIngredient)
                 }
             } label: {

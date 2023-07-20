@@ -7,6 +7,7 @@ struct StepFormView: View {
     @State var image: UIImage?
     @State private var recipeStep = RecipeStep()
     @Binding var recipeSteps: [RecipeStep]
+    @ObservedResults(RecipeStep.self) var steps
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     var body: some View {
         NavigationStack {
@@ -64,6 +65,7 @@ struct StepFormView: View {
                         } else {
                             recipeStep.number = recipeSteps.count + 1
                             recipeSteps.append(recipeStep)
+                            $steps.append(recipeStep)
                         }
                     } label: {
                         Text("Сохранить шаг")

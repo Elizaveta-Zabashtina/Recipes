@@ -3,7 +3,6 @@ import Foundation
 
 struct RecipeInformationView: View {
     @State var recipe: Recipe
-    @EnvironmentObject var listViewModel: ListViewModel
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {

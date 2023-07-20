@@ -3,7 +3,6 @@ import RealmSwift
 
 struct ListView: View {
     @State var searchText = ""
-    @EnvironmentObject var listViewModel: ListViewModel
     @ObservedResults(Recipe.self) var recipes
     var body: some View {
         NavigationStack {
@@ -54,7 +53,6 @@ struct ListView: View {
 struct CardItem: View {
     @State var offsetX: CGFloat = 0
     var cardItem: Recipe
-    @EnvironmentObject var listViewModel: ListViewModel
     var onDelete: () -> Void
     var body: some View {
         NavigationView {

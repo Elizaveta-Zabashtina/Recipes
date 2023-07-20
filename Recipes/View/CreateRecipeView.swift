@@ -2,16 +2,6 @@ import SwiftUI
 import RealmSwift
 
 struct CreateRecipeView: View {
-    @State private var recipeName: String = ""
-    @State private var recipeDescription: String = ""
-    @State private var recipeCategory = Category()
-    @State private var numberOfServings: Int = 1
-    @State private var recipeIngredients: [Ingredient] = []
-    @State private var recipeSteps: [RecipeStep] = []
-    @State var isPickerShow = false
-    @State var recipeImage: UIImage?
-    @State var showAlert = false
-    @EnvironmentObject var listViewModel: ListViewModel
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @ObservedResults(Recipe.self) var recipes
     var body: some View {
@@ -19,7 +9,7 @@ struct CreateRecipeView: View {
             Form {
                 Section("Фотография готового блюда") {
                     VStack {
-                        if let recipeImage = recipeImage {
+                        if let recipeImage = createRecipeViewModel.recipeImage {
                             Image(uiImage: recipeImage)
                                 .resizable()
                                 .scaledToFit()
@@ -30,7 +20,7 @@ struct CreateRecipeView: View {
                         } else {
                             ZStack {
                                 Button {
-                                    isPickerShow.toggle()
+                                    createRecipeViewModel.isPickerShow.toggle()
                                 } label: {
                                     VStack {
                                         Image(systemName: "camera")
@@ -51,26 +41,26 @@ struct CreateRecipeView: View {
                                 }
                             }
                         }
-                    } .sheet(isPresented: $isPickerShow) {
-                            ImagePicker(image: $recipeImage)
+                    } .sheet(isPresented: $createRecipeViewModel.isPickerShow) {
+                        ImagePicker(image: $createRecipeViewModel.recipeImage)
                         }
                 }
                 Section("Название рецепта") {
                     Row {
-                        TextField("Например: Торт Наполеон", text: $recipeName)
+                        TextField("Например: Торт Наполеон", text: $createRecipeViewModel.recipeName)
                     }
                 }
                 Section("Описание рецепта") {
                     Row {
-                        TextField("Расскажите, каким будет готовое блюдо?", text: $recipeDescription)
+                        TextField("Расскажите, каким будет готовое блюдо?", text: $createRecipeViewModel.recipeDescription)
                     }
                 }
                 Section("Категория") {
                     Row {
-                        Text(recipeCategory.name)
+                        Text(createRecipeViewModel.recipeCategory.name)
                     }
                     NavigationLink {
-                        ListCategoryView(recipeCategory: $recipeCategory)
+                        ListCategoryView(recipeCategory: $createRecipeViewModel.recipeCategory)
                     } label: {
                         Text("Выбрать категорию")
                             .foregroundColor(.yellow)
@@ -79,8 +69,8 @@ struct CreateRecipeView: View {
                 Section("Порции") {
                     HStack(spacing: 15) {
                         Button {
-                            if numberOfServings > 1 {
-                                numberOfServings.self -= 1
+                            if createRecipeViewModel.numberOfServings > 1 {
+                                createRecipeViewModel.numberOfServings.self -= 1
                             }
                         } label: {
                             Image(systemName: "minus.circle")
@@ -88,10 +78,10 @@ struct CreateRecipeView: View {
                                 .frame(width: 22, height: 22)
                                 .foregroundColor(.yellow)
                         }
-                        Text("\(numberOfServings)")
+                        Text("\(createRecipeViewModel.numberOfServings)")
                         Button {
-                            if numberOfServings < 25 {
-                                numberOfServings.self += 1
+                            if createRecipeViewModel.numberOfServings < 25 {
+                                createRecipeViewModel.numberOfServings.self += 1
                             }
                         } label: {
                             Image(systemName: "plus.circle")
@@ -103,7 +93,7 @@ struct CreateRecipeView: View {
                 }
                 Section("Ингредиенты") {
                     VStack(spacing: 20) {
-                        ForEach(recipeIngredients) { ingredient in
+                        ForEach(createRecipeViewModel.recipeIngredients) { ingredient in
                             VStack(alignment: .leading) {
                                 Row {
                                     Text("\(ingredient.name), \(ingredient.measure) ")
@@ -112,7 +102,7 @@ struct CreateRecipeView: View {
                             .lineLimit(1)
                         }
                         NavigationLink {
-                            AddingIngredientView(recipeIngredients: $recipeIngredients)
+                            AddingIngredientView(recipeIngredients: $createRecipeViewModel.recipeIngredients)
                         } label: {
                             Text("+ Добавить ингредиент")
                                 .foregroundColor(.yellow)
@@ -121,14 +111,14 @@ struct CreateRecipeView: View {
                 }
                 Section("Как приготовить") {
                     VStack(spacing: 20) {
-                        ForEach(recipeSteps, id: \.id) { step in
+                        ForEach(createRecipeViewModel.recipeSteps, id: \.id) { step in
                             StepItem(stepItem: step) {
-                                recipeSteps.remove(at: step.number - 1)
+                                createRecipeViewModel.recipeSteps.remove(at: step.number - 1)
                             }
                             Divider()
                         }
                         NavigationLink {
-                            StepFormView(recipeSteps: $recipeSteps)
+                            StepFormView(recipeSteps: $createRecipeViewModel.recipeSteps)
                         } label: {
                             Text("+ Добавить шаг")
                                 .foregroundColor(.yellow)
@@ -137,9 +127,9 @@ struct CreateRecipeView: View {
                 }
                 Spacer(minLength: 20)
                 Button {
-                    if recipeName.count == 0, recipeDescription.count == 0,
-                        recipeSteps.count == 0, recipeIngredients.count == 0 {
-                        showAlert.toggle()
+                    if createRecipeViewModel.recipeName.count == 0, createRecipeViewModel.recipeDescription.count == 0,
+                       createRecipeViewModel.recipeSteps.count == 0, createRecipeViewModel.recipeIngredients.count == 0 {
+                        createRecipeViewModel.showAlert.toggle()
                     } else {
                         let newRecipe = Recipe()
 //                        let path = "images/recipes/\(newRecipe.id).jpg"
@@ -147,13 +137,13 @@ struct CreateRecipeView: View {
 //                                                 pathAndImageName: path)) != nil else { return }
                         let todayDate = Date()
                         newRecipe.created = todayDate
-                        newRecipe.name = recipeName
-                        newRecipe.recipeDescription = recipeDescription
+                        newRecipe.name = createRecipeViewModel.recipeName
+                        newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
 //                        newRecipe.image = path
-      //                  newRecipe.category = recipeCategory
-                        newRecipe.numberOfServings = numberOfServings
-                        newRecipe.steps.append(objectsIn: recipeSteps)
-                        newRecipe.ingredients.append(objectsIn: recipeIngredients)
+                        newRecipe.category = createRecipeViewModel.recipeCategory
+                        newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
+                        newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
+                        newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
                         $recipes.append(newRecipe)
                     }
                 } label: {
@@ -167,7 +157,7 @@ struct CreateRecipeView: View {
                     .padding(.bottom, 10)
                     .background(.yellow)
                     .cornerRadius(15)
-            } .alert(Text("Пустые поля!"), isPresented: $showAlert, actions: {})
+            } .alert(Text("Пустые поля!"), isPresented: $createRecipeViewModel.showAlert, actions: {})
         }
     }
 }

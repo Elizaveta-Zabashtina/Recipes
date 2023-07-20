@@ -2,25 +2,13 @@ import SwiftUI
 
 struct ContentView: View {
 //    @ObservedObject var loginViewModel = LoginViewModel()
-//    @ObservedObject var listViewModel = ListViewModel()
-//    @ObservedObject var createRecipeViewModel = CreateRecipeViewModel()
+    @ObservedObject var createRecipeViewModel = CreateRecipeViewModel()
     var body: some View {
 //        if loginViewModel.isLogin {
-//            ZStack {
-//                if listViewModel.isShowCreateView {
-//                    CreateRecipeView()
-//                        .environmentObject(listViewModel)
-//                        .environmentObject(createRecipeViewModel)
-//                } else {
-//                    if listViewModel.isShowRecipeInfromationView {
-//                        RecipeInformationView()
-//                    } else {
-//                        ListView()
-//                            .environmentObject(listViewModel)
-//                    }
-//                }
+//        ListView()
 //            }
         ListView()
+            .environmentObject(createRecipeViewModel)
 //        } else {
 //            LoginView()
 //                .ignoresSafeArea(.all)

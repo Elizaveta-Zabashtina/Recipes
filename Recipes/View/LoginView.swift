@@ -2,8 +2,6 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var loginViewModel = LoginViewModel()
-    @State private var login = ""
-    @State private var password = ""
     @State private var isShowingWebView: Bool = false
     var body: some View {
         if loginViewModel.isLogin {
