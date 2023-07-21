@@ -3,6 +3,7 @@ import RealmSwift
 
 struct ListCategoryView: View {
     @ObservedResults(Category.self) var categories
+    @Environment(\.presentationMode) var presentationMode
     @Binding var recipeCategory: Category
     var body: some View {
         NavigationStack {
@@ -11,6 +12,7 @@ struct ListCategoryView: View {
                     VStack {
                         Button {
                             self.recipeCategory = category
+                            presentationMode.wrappedValue.dismiss()
                         } label: {
                             Text(category.name)
                                 .foregroundColor(.yellow)

@@ -3,6 +3,7 @@ import RealmSwift
 
 struct CreateRecipeView: View {
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
+    @Environment(\.presentationMode) var presentationMode
     @ObservedResults(Recipe.self) var recipes
     var body: some View {
         NavigationStack {
@@ -145,6 +146,7 @@ struct CreateRecipeView: View {
                         newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
                         newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
                         $recipes.append(newRecipe)
+                        presentationMode.wrappedValue.dismiss()
                     }
                 } label: {
                     Text("Сохранить рецепт")

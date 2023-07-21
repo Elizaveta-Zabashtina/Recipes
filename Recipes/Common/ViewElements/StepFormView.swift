@@ -8,6 +8,7 @@ struct StepFormView: View {
     @State private var recipeStep = RecipeStep()
     @Binding var recipeSteps: [RecipeStep]
     @ObservedResults(RecipeStep.self) var steps
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     var body: some View {
         NavigationStack {
@@ -66,6 +67,7 @@ struct StepFormView: View {
                             recipeStep.number = recipeSteps.count + 1
                             recipeSteps.append(recipeStep)
                             $steps.append(recipeStep)
+                            presentationMode.wrappedValue.dismiss()
                         }
                     } label: {
                         Text("Сохранить шаг")

@@ -5,6 +5,7 @@ struct AddingIngredientView: View {
     @State private var recipeIngredient = Ingredient()
     @Binding var recipeIngredients: [Ingredient]
     @ObservedResults(Ingredient.self) var ingredients
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
     @State var showAlert = false
     var body: some View {
@@ -24,6 +25,7 @@ struct AddingIngredientView: View {
                 } else {
                     $ingredients.append(recipeIngredient)
                     recipeIngredients.append(recipeIngredient)
+                    presentationMode.wrappedValue.dismiss()
                 }
             } label: {
                 Text("Добавить ингредиент")

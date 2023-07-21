@@ -4,6 +4,7 @@ import SwiftUI
 class CreateRecipeViewModel: ObservableObject {
     @Published var isStepFormViewShow = false
     @Published var isSaveRecipeButtonClick = false
+    
     @Published var recipeName: String = ""
     @Published var recipeDescription: String = ""
     @Published var recipeCategory = Category()
