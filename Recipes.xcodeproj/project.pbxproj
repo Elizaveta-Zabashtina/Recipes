@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		74181EA72A4ECE9400A4E737 /* RecipeStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74181EA62A4ECE9400A4E737 /* RecipeStep.swift */; };
 		74181EA92A4ED09100A4E737 /* StepFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74181EA82A4ED09100A4E737 /* StepFormView.swift */; };
-		74181EB52A53541000A4E737 /* SearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74181EB42A53541000A4E737 /* SearchParameters.swift */; };
 		74181EB72A541E5500A4E737 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74181EB62A541E5500A4E737 /* ImagePicker.swift */; };
 		74181EB92A543F3E00A4E737 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74181EB82A543F3E00A4E737 /* ListView.swift */; };
+		74329E7D2A6D5F1500E22C80 /* RealmMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74329E7C2A6D5F1500E22C80 /* RealmMigrator.swift */; };
 		7435FA382A575778003665E7 /* ListCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7435FA372A575778003665E7 /* ListCategoryView.swift */; };
 		7447BA332A49F4A400CE11DE /* RecipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7447BA322A49F4A400CE11DE /* RecipesApp.swift */; };
 		7447BA352A49F4A400CE11DE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7447BA342A49F4A400CE11DE /* ContentView.swift */; };
@@ -41,9 +41,9 @@
 /* Begin PBXFileReference section */
 		74181EA62A4ECE9400A4E737 /* RecipeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStep.swift; sourceTree = "<group>"; };
 		74181EA82A4ED09100A4E737 /* StepFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepFormView.swift; sourceTree = "<group>"; };
-		74181EB42A53541000A4E737 /* SearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParameters.swift; sourceTree = "<group>"; };
 		74181EB62A541E5500A4E737 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		74181EB82A543F3E00A4E737 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		74329E7C2A6D5F1500E22C80 /* RealmMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrator.swift; sourceTree = "<group>"; };
 		7435FA372A575778003665E7 /* ListCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCategoryView.swift; sourceTree = "<group>"; };
 		7447BA2F2A49F4A400CE11DE /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7447BA322A49F4A400CE11DE /* RecipesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesApp.swift; sourceTree = "<group>"; };
@@ -152,7 +152,6 @@
 				7447BA542A4E041A00CE11DE /* Ingredient.swift */,
 				7447BA562A4E042B00CE11DE /* Category.swift */,
 				74181EA62A4ECE9400A4E737 /* RecipeStep.swift */,
-				74181EB42A53541000A4E737 /* SearchParameters.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -184,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				7466D6C92A653C040001CBB7 /* UIImage.swift */,
+				74329E7C2A6D5F1500E22C80 /* RealmMigrator.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -304,8 +304,8 @@
 				74F443812A6949DB004935C7 /* SearchView.swift in Sources */,
 				7447BA572A4E042B00CE11DE /* Category.swift in Sources */,
 				7466D6BF2A5D5B7F0001CBB7 /* RecipeInformationView.swift in Sources */,
+				74329E7D2A6D5F1500E22C80 /* RealmMigrator.swift in Sources */,
 				7447BA412A49F59300CE11DE /* LoginView.swift in Sources */,
-				74181EB52A53541000A4E737 /* SearchParameters.swift in Sources */,
 				7435FA382A575778003665E7 /* ListCategoryView.swift in Sources */,
 				7447BA5F2A4E1E6900CE11DE /* CreateRecipeView.swift in Sources */,
 				7447BA352A49F4A400CE11DE /* ContentView.swift in Sources */,

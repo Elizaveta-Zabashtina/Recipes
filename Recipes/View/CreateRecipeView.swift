@@ -44,7 +44,7 @@ struct CreateRecipeView: View {
                         }
                     } .sheet(isPresented: $createRecipeViewModel.isPickerShow) {
                         ImagePicker(image: $createRecipeViewModel.recipeImage)
-                        }
+                    }
                 }
                 Section("Название рецепта") {
                     Row {
@@ -53,7 +53,8 @@ struct CreateRecipeView: View {
                 }
                 Section("Описание рецепта") {
                     Row {
-                        TextField("Расскажите, каким будет готовое блюдо?", text: $createRecipeViewModel.recipeDescription)
+                        TextField("Расскажите, каким будет готовое блюдо?",
+                                  text: $createRecipeViewModel.recipeDescription)
                     }
                 }
                 Section("Категория") {
@@ -128,24 +129,28 @@ struct CreateRecipeView: View {
                 }
                 Spacer(minLength: 20)
                 Button {
-                    if createRecipeViewModel.recipeName.count == 0, createRecipeViewModel.recipeDescription.count == 0,
-                       createRecipeViewModel.recipeSteps.count == 0, createRecipeViewModel.recipeIngredients.count == 0 {
+                    if createRecipeViewModel.recipeName.count == 0 ||
+                        createRecipeViewModel.recipeDescription.count == 0 ||
+                        createRecipeViewModel.recipeIngredients.count == 0 ||
+                        createRecipeViewModel.recipeSteps.count == 0
+                  //      createRecipeViewModel.recipeCategory.name == ""
+                    {
                         createRecipeViewModel.showAlert.toggle()
                     } else {
                         let newRecipe = Recipe()
-//                        let path = "images/recipes/\(newRecipe.id).jpg"
-//                        guard (recipeImage?.save(at: .documentDirectory,
-//                                                 pathAndImageName: path)) != nil else { return }
+                        //                        let path = "images/recipes/\(newRecipe.id).jpg"
+                        //                        guard (recipeImage?.save(at: .documentDirectory,
+                        //                                                 pathAndImageName: path)) != nil else { return }
                         let todayDate = Date()
                         newRecipe.created = todayDate
                         newRecipe.name = createRecipeViewModel.recipeName
                         newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
-//                        newRecipe.image = path
+                        //                        newRecipe.image = path
                         newRecipe.category = createRecipeViewModel.recipeCategory
                         newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
                         newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
                         newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
-                        $recipes.append(newRecipe)
+                            $recipes.append(newRecipe)
                         presentationMode.wrappedValue.dismiss()
                     }
                 } label: {
@@ -160,6 +165,28 @@ struct CreateRecipeView: View {
                     .background(.yellow)
                     .cornerRadius(15)
             } .alert(Text("Пустые поля!"), isPresented: $createRecipeViewModel.showAlert, actions: {})
+        }
+    }
+    func onInsertItem() {
+        if createRecipeViewModel.recipeName.count == 0 || createRecipeViewModel.recipeDescription.count == 0 ||
+            createRecipeViewModel.recipeCategory.name == "" {
+            createRecipeViewModel.showAlert.toggle()
+        } else {
+            let newRecipe = Recipe()
+            //                        let path = "images/recipes/\(newRecipe.id).jpg"
+            //                        guard (recipeImage?.save(at: .documentDirectory,
+            //                                                 pathAndImageName: path)) != nil else { return }
+            let todayDate = Date()
+            newRecipe.created = todayDate
+            newRecipe.name = createRecipeViewModel.recipeName
+            newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
+            //                        newRecipe.image = path
+            newRecipe.category = createRecipeViewModel.recipeCategory
+            newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
+            newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
+            newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
+            $recipes.append(newRecipe)
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }

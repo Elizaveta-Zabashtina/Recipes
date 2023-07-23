@@ -7,4 +7,9 @@ class Category: Object, Identifiable {
     override static func primaryKey() -> String? {
         return "id"
     }
+    convenience init(id: ObjectId, name: String) {
+        self.init()
+        self.id = id
+        self.name = name
+    }
 }

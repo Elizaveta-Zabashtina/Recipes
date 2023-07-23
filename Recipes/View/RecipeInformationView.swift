@@ -22,7 +22,7 @@ struct RecipeInformationView: View {
                     .fontWeight(.regular)
                     .multilineTextAlignment(.leading)
                 VStack {
-                    Text("Категория: \(recipe.category.name)")
+//                    Text("Категория: \(recipe.category.name)")
                     Text("Количество порций: \(recipe.numberOfServings)")
                 } .frame(width: 350, height: 70)
                     .background(.yellow)
@@ -40,7 +40,7 @@ struct RecipeInformationView: View {
                 Text("Пошаговый рецепт")
                     .font(.title3)
                     .fontWeight(.bold)
-            }
+            } .padding(.leading, 20)
             VStack(spacing: 15) {
                 ForEach(recipe.steps, id: \.id) { step in
                     StepCardItem(step: step)
