@@ -3,29 +3,41 @@ import RealmSwift
 
 struct ListView: View {
     @State var searchText = ""
+    @State var selectedSort = "created"
     @ObservedResults(Recipe.self) var recipes
     var body: some View {
         NavigationStack {
             ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 10) {
-                        Button {
-                            //
-                        } label: {
-                            HStack {
-                                Image(systemName: "slider.horizontal.3")
-                                    .resizable()
-                                    .frame(width: 15, height: 15)
-                                Text("Фильтры")
-                                    .frame(width: 300)
-                            } .foregroundColor(.yellow)
-                                .padding(.vertical, 16)
-                                .padding(.horizontal, 20)
-                                .background(Color(UIColor.systemGray6))
-                                .cornerRadius(15)
+                        HStack(alignment: .bottom) {
+                            NavigationLink {
+                                FilterView()
+                            } label: {
+                                HStack {
+                                    Image(systemName: "slider.horizontal.3")
+                                        .resizable()
+                                        .frame(width: 15, height: 15)
+                                    Text("Фильтры")
+                                        .frame(width: 100, height: 30)
+                                } .foregroundColor(.yellow)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 20)
+                                    .background(Color(UIColor.systemGray6))
+                                    .cornerRadius(15)
+                            }
+                            Picker("Сортировка", selection: $selectedSort) {
+                                Text("По имени").tag("name")
+                                Text("По дате добавления").tag("created")
+                            }
+                            .frame(width: 140, height: 30)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(Color(UIColor.systemGray6))
+                            .cornerRadius(15)
                         } .searchable(text: $searchText, collection: $recipes, keyPath: \.name)
                         VStack(spacing: 20) {
-                            ForEach(recipes, id: \.id) { item in
+                            ForEach(recipes.sorted(byKeyPath: selectedSort), id: \.id) { item in
                                 CardItem(cardItem: item) {
                                     $recipes.remove(item)
                                 }
@@ -34,7 +46,7 @@ struct ListView: View {
                     }
                 }
                 NavigationLink {
-                   CreateRecipeView()
+                    CreateRecipeView()
                 } label: {
                     ZStack {
                         Circle()

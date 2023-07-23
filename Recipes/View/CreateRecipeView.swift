@@ -129,29 +129,11 @@ struct CreateRecipeView: View {
                 }
                 Spacer(minLength: 20)
                 Button {
-                    if createRecipeViewModel.recipeName.count == 0 ||
-                        createRecipeViewModel.recipeDescription.count == 0 ||
-                        createRecipeViewModel.recipeIngredients.count == 0 ||
-                        createRecipeViewModel.recipeSteps.count == 0
-                  //      createRecipeViewModel.recipeCategory.name == ""
-                    {
-                        createRecipeViewModel.showAlert.toggle()
-                    } else {
-                        let newRecipe = Recipe()
-                        //                        let path = "images/recipes/\(newRecipe.id).jpg"
-                        //                        guard (recipeImage?.save(at: .documentDirectory,
-                        //                                                 pathAndImageName: path)) != nil else { return }
-                        let todayDate = Date()
-                        newRecipe.created = todayDate
-                        newRecipe.name = createRecipeViewModel.recipeName
-                        newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
-                        //                        newRecipe.image = path
-                        newRecipe.category = createRecipeViewModel.recipeCategory
-                        newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
-                        newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
-                        newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
-                            $recipes.append(newRecipe)
+                    if fieldsValidation() {
+                        addNewRecipe()
                         presentationMode.wrappedValue.dismiss()
+                    } else {
+                        createRecipeViewModel.showAlert.toggle()
                     }
                 } label: {
                     Text("Сохранить рецепт")
@@ -167,26 +149,31 @@ struct CreateRecipeView: View {
             } .alert(Text("Пустые поля!"), isPresented: $createRecipeViewModel.showAlert, actions: {})
         }
     }
-    func onInsertItem() {
-        if createRecipeViewModel.recipeName.count == 0 || createRecipeViewModel.recipeDescription.count == 0 ||
-            createRecipeViewModel.recipeCategory.name == "" {
-            createRecipeViewModel.showAlert.toggle()
-        } else {
-            let newRecipe = Recipe()
-            //                        let path = "images/recipes/\(newRecipe.id).jpg"
-            //                        guard (recipeImage?.save(at: .documentDirectory,
-            //                                                 pathAndImageName: path)) != nil else { return }
-            let todayDate = Date()
-            newRecipe.created = todayDate
-            newRecipe.name = createRecipeViewModel.recipeName
-            newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
-            //                        newRecipe.image = path
-            newRecipe.category = createRecipeViewModel.recipeCategory
-            newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
-            newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
-            newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
-            $recipes.append(newRecipe)
-            presentationMode.wrappedValue.dismiss()
+    func addNewRecipe() {
+        let newRecipe = Recipe()
+        //                        let path = "images/recipes/\(newRecipe.id).jpg"
+        //                        guard (recipeImage?.save(at: .documentDirectory,
+        //                                                 pathAndImageName: path)) != nil else { return }
+        let todayDate = Date()
+        newRecipe.created = todayDate
+        newRecipe.name = createRecipeViewModel.recipeName
+        newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
+        //                        newRecipe.image = path
+        newRecipe.category = createRecipeViewModel.recipeCategory
+        newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
+        newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
+        newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
+        $recipes.append(newRecipe)
+    }
+    func fieldsValidation() -> Bool {
+        var result = true
+        if createRecipeViewModel.recipeName.count == 0 ||
+            createRecipeViewModel.recipeDescription.count == 0 ||
+            createRecipeViewModel.recipeIngredients.count == 0 ||
+            createRecipeViewModel.recipeSteps.count == 0 {
+            // || createRecipeViewModel.recipeCategory.name == ""
+            result = false
         }
+        return result
     }
 }
