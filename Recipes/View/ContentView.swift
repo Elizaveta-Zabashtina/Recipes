@@ -1,18 +1,10 @@
 import SwiftUI
 
 struct ContentView: View {
-//    @ObservedObject var loginViewModel = LoginViewModel()
-    @ObservedObject var createRecipeViewModel = CreateRecipeViewModel()
+    @ObservedObject var loginViewModel = LoginViewModel()
     var body: some View {
-//        if loginViewModel.isLogin {
-//        ListView()
-//            }
-        ListView()
-            .environmentObject(createRecipeViewModel)
-//        } else {
-//            LoginView()
-//                .ignoresSafeArea(.all)
-//        }
+        LoginView()
+            .ignoresSafeArea(.all)
     }
 }
 

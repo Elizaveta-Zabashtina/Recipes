@@ -28,8 +28,7 @@ struct FilterView: View {
                                         .cornerRadius(15)
                                 }
                             }
-                        }
-                        
+                        }                        
                     } .padding()
                 } .frame(height: 50)
             }

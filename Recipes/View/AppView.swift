@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct AppView: View {
+    @ObservedObject var createRecipeViewModel = CreateRecipeViewModel()
     var body: some View {
-        ContentView()
+        ListView()
+            .environmentObject(createRecipeViewModel)
     }
 }
 

@@ -49,8 +49,7 @@ struct ListView: View {
                             } else {
                                 ForEach(recipes.where {(
                                     $0.category.name.contains(selectedCategory.name)
-                                    )
-                                }, id: \.id) { item in
+                                )}, id: \.id) { item in
                                     CardItem(cardItem: item) {
                                         $recipes.remove(item)
                                     }
