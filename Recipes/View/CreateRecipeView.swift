@@ -170,7 +170,8 @@ struct CreateRecipeView: View {
         if createRecipeViewModel.recipeName.count == 0 ||
             createRecipeViewModel.recipeDescription.count == 0 ||
             createRecipeViewModel.recipeIngredients.count == 0 ||
-            createRecipeViewModel.recipeSteps.count == 0 {
+            createRecipeViewModel.recipeSteps.count == 0 ||
+            createRecipeViewModel.recipeImage == nil {
             // || createRecipeViewModel.recipeCategory.name == ""
             result = false
         }

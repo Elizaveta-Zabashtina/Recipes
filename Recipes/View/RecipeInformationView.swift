@@ -60,6 +60,7 @@ struct RecipeInformationView: View {
 }
 struct StepCardItem: View {
     var step: RecipeStep
+    @State var uiImage = UIImage()
     var body: some View {
             VStack(alignment: .leading, spacing: 20) {
                 Text("Шаг \(step.number)")
@@ -72,7 +73,7 @@ struct StepCardItem: View {
                     .padding(.bottom, 10)
                     .background(.yellow)
                     .cornerRadius(15)
-                Image("stepImage")
+                uiImage.getImage(fileName: step.image)?
                     .resizable()
                     .frame(width: 350, height: 250)
                     .cornerRadius(15)

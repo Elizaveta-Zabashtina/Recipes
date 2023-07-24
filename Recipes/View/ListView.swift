@@ -39,7 +39,7 @@ struct ListView: View {
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(15)
                         } .searchable(text: $searchText, collection: $recipes, keyPath: \.name)
-                        VStack(spacing: 20) {
+                        VStack {
                             if selectedCategory.name == "" && selectedIngredients.isEmpty {
                                 ForEach(recipes.sorted(byKeyPath: selectedSort), id: \.id) { item in
                                     CardItem(cardItem: item) {
@@ -90,7 +90,7 @@ struct CardItem: View {
                     VStack(spacing: 10) {
                         uiImage.getImage(fileName: cardItem.image)?
                             .resizable()
-                            .frame(width: 350, height: 200)
+                            .frame(width: 350, height: 250)
                             .cornerRadius(15)
                             .padding(.horizontal, 20)
                         Text(cardItem.name)

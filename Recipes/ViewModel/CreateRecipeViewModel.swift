@@ -10,5 +10,6 @@ class CreateRecipeViewModel: ObservableObject {
     @Published var recipeSteps: [RecipeStep] = []
     @Published var isPickerShow = false
     @Published var recipeImage: UIImage?
+    @Published var stepImages: [UIImage]?
     @Published var showAlert = false
 }

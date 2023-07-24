@@ -4,9 +4,9 @@ import RealmSwift
 struct StepFormView: View {
     @State var isPickerShow = false
     @State var showAlert = false
-    @State var image: UIImage?
     @State private var recipeStep = RecipeStep()
     @Binding var recipeSteps: [RecipeStep]
+    @State var stepImage: UIImage?
     @ObservedResults(RecipeStep.self) var steps
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var createRecipeViewModel: CreateRecipeViewModel
@@ -28,14 +28,22 @@ struct StepFormView: View {
                         TextField("Например: Почистите овощи", text: $recipeStep.step)
                     }
                     VStack {
-                        if let image = image {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .cornerRadius(15)
-                                .padding(.leading, 20)
-                                .padding(.trailing, 20)
+//                        if let stepImage = createRecipeViewModel.stepImages?[recipeStep.number - 1] {
+//                            Image(uiImage: stepImage)
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(minWidth: 0, maxWidth: .infinity)
+//                                .cornerRadius(15)
+//                                .padding(.leading, 20)
+//                                .padding(.trailing, 20)
+                            if let stepImage = stepImage {
+                                Image(uiImage: stepImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .cornerRadius(15)
+                                    .padding(.leading, 20)
+                                    .padding(.trailing, 20)
                         } else {
                             Button {
                                 isPickerShow.toggle()
@@ -57,13 +65,18 @@ struct StepFormView: View {
                                 .cornerRadius(15)
                         }
                     } .sheet(isPresented: $isPickerShow) {
-                            ImagePicker(image: $image)
+                        ImagePicker(image: $stepImage)
                         }
                 }
                     Button {
                         if recipeStep.step.count == 0 {
                             showAlert.toggle()
                         } else {
+                         //   createRecipeViewModel.stepImages?.append(stepImage)
+                            let path = "images/steps/\(recipeStep.id).jpg"
+                            guard (stepImage?.save(at: .documentDirectory,
+                                                     pathAndImageName: path)) != nil else { return }
+                            recipeStep.image = path
                             recipeStep.number = recipeSteps.count + 1
                             recipeSteps.append(recipeStep)
                             $steps.append(recipeStep)
@@ -87,6 +100,7 @@ struct StepFormView: View {
 
 struct StepItem: View {
     var stepItem: RecipeStep
+    @State var uiImage = UIImage()
     var onDelete: () -> Void
     var body: some View {
         Form {
@@ -114,10 +128,11 @@ struct StepItem: View {
             Row {
                 Text(stepItem.step)
             }
-//            Image(uiImage: image)
-//                .resizable()
-//                .scaledToFit()
-//                .frame(minWidth: 0, maxWidth: .infinity)
+            uiImage.getImage(fileName: stepItem.image)?
+                .resizable()
+                .frame(width: 350, height: 200)
+                .cornerRadius(15)
+                .padding(.horizontal, 20)
         }
     }
 }
