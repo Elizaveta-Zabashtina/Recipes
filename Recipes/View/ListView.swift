@@ -4,6 +4,8 @@ import RealmSwift
 struct ListView: View {
     @State var searchText = ""
     @State var selectedSort = "created"
+    @State var selectedCategory = Category()
+    @State var selectedIngredients: [Ingredient] = []
     @ObservedResults(Recipe.self) var recipes
     var body: some View {
         NavigationStack {
@@ -12,7 +14,8 @@ struct ListView: View {
                     VStack(spacing: 10) {
                         HStack(alignment: .bottom) {
                             NavigationLink {
-                                FilterView()
+                                FilterView(selectedCategory: $selectedCategory,
+                                           selectedIngredients: $selectedIngredients)
                             } label: {
                                 HStack {
                                     Image(systemName: "slider.horizontal.3")
@@ -37,9 +40,20 @@ struct ListView: View {
                             .cornerRadius(15)
                         } .searchable(text: $searchText, collection: $recipes, keyPath: \.name)
                         VStack(spacing: 20) {
-                            ForEach(recipes.sorted(byKeyPath: selectedSort), id: \.id) { item in
-                                CardItem(cardItem: item) {
-                                    $recipes.remove(item)
+                            if selectedCategory.name == "" && selectedIngredients.isEmpty {
+                                ForEach(recipes.sorted(byKeyPath: selectedSort), id: \.id) { item in
+                                    CardItem(cardItem: item) {
+                                        $recipes.remove(item)
+                                    }
+                                }
+                            } else {
+                                ForEach(recipes.where {(
+                                    $0.category.name.contains(selectedCategory.name)
+                                    )
+                                }, id: \.id) { item in
+                                    CardItem(cardItem: item) {
+                                        $recipes.remove(item)
+                                    }
                                 }
                             }
                         }

@@ -5,6 +5,8 @@ struct FilterView: View {
     @ObservedResults(Category.self) var categories
     @ObservedResults(Ingredient.self) var ingredients
     @Environment(\.presentationMode) var presentationMode
+    @Binding var selectedCategory: Category
+    @Binding var selectedIngredients: [Ingredient]
     var body: some View {
         Form {
             Section("Категории") {
@@ -13,20 +15,21 @@ struct FilterView: View {
                         ForEach(categories) { category in
                             LazyHStack {
                                 Button {
-                                    //
+                                    self.selectedCategory = category
                                 } label: {
                                     Text(category.name)
                                         .foregroundColor(.black)
                                         .frame(alignment: .leading)
-                                            .padding(.top, 10)
-                                            .padding(.leading, 20)
-                                            .padding(.trailing, 20)
-                                            .padding(.bottom, 10)
-                                            .background(.yellow)
-                                            .cornerRadius(15)
+                                        .padding(.top, 10)
+                                        .padding(.leading, 20)
+                                        .padding(.trailing, 20)
+                                        .padding(.bottom, 10)
+                                        .background(.yellow)
+                                        .cornerRadius(15)
                                 }
                             }
                         }
+                        
                     } .padding()
                 } .frame(height: 50)
             }
@@ -36,7 +39,7 @@ struct FilterView: View {
                         ForEach(ingredients) { ingredient in
                             LazyHStack {
                                 Button {
-                                    //
+                                    selectedIngredients.append(ingredient)
                                 } label: {
                                     Text(ingredient.name)
                                         .foregroundColor(.black)
