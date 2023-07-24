@@ -77,6 +77,7 @@ struct ListView: View {
 }
 struct CardItem: View {
     @State var offsetX: CGFloat = 0
+    @State var uiImage = UIImage()
     var cardItem: Recipe
     var onDelete: () -> Void
     var body: some View {
@@ -87,7 +88,7 @@ struct CardItem: View {
                     RecipeInformationView(recipe: cardItem)
                 } label: {
                     VStack(spacing: 10) {
-                        Image(cardItem.image)
+                        uiImage.getImage(fileName: cardItem.image)?
                             .resizable()
                             .frame(width: 350, height: 200)
                             .cornerRadius(15)

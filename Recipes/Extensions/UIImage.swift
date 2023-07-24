@@ -36,6 +36,16 @@ extension UIImage {
             return nil
         }
     }
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    func getImage(fileName: String) -> Image? {
+        let imagePath = getDocumentsDirectory().appendingPathComponent(fileName)
+        guard let uiImage = UIImage(fileURLWithPath: imagePath) else { return nil }
+        return Image(uiImage: uiImage)
+    }
 }
 // load from path
 extension UIImage {

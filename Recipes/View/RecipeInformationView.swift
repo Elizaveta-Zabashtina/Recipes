@@ -3,13 +3,14 @@ import Foundation
 
 struct RecipeInformationView: View {
     @State var recipe: Recipe
+    @State var uiImage = UIImage()
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                Image(recipe.image)
+                uiImage.getImage(fileName: recipe.image)?
                     .resizable()
                     .frame(width: 350, height: 250)
-                Spacer()
+                    .cornerRadius(15)
                 Text(calculateDate(date: recipe.created))
                     .font(.footnote)
                     .fontWeight(.thin)
@@ -34,19 +35,18 @@ struct RecipeInformationView: View {
                     VStack(alignment: .leading) {
                         Text("\(ingredient.name), \(ingredient.measure)")
                         Divider()
-                    }
-                    .lineLimit(1)
+                    } .lineLimit(1)
                 }
                 Text("Пошаговый рецепт")
                     .font(.title3)
                     .fontWeight(.bold)
-            } .padding(.leading, 20)
-            VStack(spacing: 15) {
-                ForEach(recipe.steps, id: \.id) { step in
-                    StepCardItem(step: step)
-                    Divider()
+                VStack(spacing: 15) {
+                    ForEach(recipe.steps, id: \.id) { step in
+                        StepCardItem(step: step)
+                        Divider()
+                    }
                 }
-            }
+            } .padding(.leading, 20)
         }
     }
     private func calculateDate(date: Date) -> String {
@@ -78,6 +78,6 @@ struct StepCardItem: View {
                     .cornerRadius(15)
                 Text(step.step)
                     .frame(width: 350)
-            }
+            } .padding(.trailing, 20)
     }
 }

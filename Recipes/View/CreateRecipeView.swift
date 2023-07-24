@@ -151,14 +151,14 @@ struct CreateRecipeView: View {
     }
     func addNewRecipe() {
         let newRecipe = Recipe()
-        //                        let path = "images/recipes/\(newRecipe.id).jpg"
-        //                        guard (recipeImage?.save(at: .documentDirectory,
-        //                                                 pathAndImageName: path)) != nil else { return }
+        let path = "images/recipes/\(newRecipe.id).jpg"
+        guard (createRecipeViewModel.recipeImage?.save(at: .documentDirectory,
+                                 pathAndImageName: path)) != nil else { return }
         let todayDate = Date()
         newRecipe.created = todayDate
         newRecipe.name = createRecipeViewModel.recipeName
         newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
-        //                        newRecipe.image = path
+        newRecipe.image = path
         newRecipe.category = createRecipeViewModel.recipeCategory
         newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
         newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
