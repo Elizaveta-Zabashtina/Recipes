@@ -36,7 +36,6 @@
 		7466D6BB2A5D44150001CBB7 /* CreateRecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7466D6BA2A5D44150001CBB7 /* CreateRecipeViewModel.swift */; };
 		7466D6BF2A5D5B7F0001CBB7 /* RecipeInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7466D6BE2A5D5B7F0001CBB7 /* RecipeInformationView.swift */; };
 		7466D6CA2A653C040001CBB7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7466D6C92A653C040001CBB7 /* UIImage.swift */; };
-		74F443812A6949DB004935C7 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F443802A6949DB004935C7 /* SearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,7 +67,6 @@
 		7466D6BA2A5D44150001CBB7 /* CreateRecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeViewModel.swift; sourceTree = "<group>"; };
 		7466D6BE2A5D5B7F0001CBB7 /* RecipeInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeInformationView.swift; sourceTree = "<group>"; };
 		7466D6C92A653C040001CBB7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
-		74F443802A6949DB004935C7 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +92,6 @@
 				7447BA622A4E1FDA00CE11DE /* Section.swift */,
 				7447BA662A4E212200CE11DE /* Row.swift */,
 				7447BA682A4E222600CE11DE /* Form.swift */,
-				74F443802A6949DB004935C7 /* SearchView.swift */,
 				74329E7E2A6D716900E22C80 /* FilterView.swift */,
 			);
 			path = ViewElements;
@@ -305,7 +302,6 @@
 				74181EA92A4ED09100A4E737 /* StepFormView.swift in Sources */,
 				7447BA6B2A4EC30E00CE11DE /* AddingIngredientView.swift in Sources */,
 				7447BA4A2A4A14CC00CE11DE /* AppView.swift in Sources */,
-				74F443812A6949DB004935C7 /* SearchView.swift in Sources */,
 				7447BA572A4E042B00CE11DE /* Category.swift in Sources */,
 				7466D6BF2A5D5B7F0001CBB7 /* RecipeInformationView.swift in Sources */,
 				74329E7D2A6D5F1500E22C80 /* RealmMigrator.swift in Sources */,
