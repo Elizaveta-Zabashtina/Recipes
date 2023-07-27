@@ -23,7 +23,7 @@ struct RecipeInformationView: View {
                     .fontWeight(.regular)
                     .multilineTextAlignment(.leading)
                 VStack {
-//                    Text("Категория: \(recipe.category.name)")
+                    Text("Категория: \(recipe.category.name)")
                     Text("Количество порций: \(recipe.numberOfServings)")
                 } .frame(width: 350, height: 70)
                     .background(.yellow)

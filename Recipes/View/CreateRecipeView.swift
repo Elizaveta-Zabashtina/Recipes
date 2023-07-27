@@ -159,7 +159,7 @@ struct CreateRecipeView: View {
         newRecipe.name = createRecipeViewModel.recipeName
         newRecipe.recipeDescription = createRecipeViewModel.recipeDescription
         newRecipe.image = path
-        newRecipe.category = createRecipeViewModel.recipeCategory
+        newRecipe.category = createRecipeViewModel.recipeCategory.thaw()
         newRecipe.numberOfServings = createRecipeViewModel.numberOfServings
         newRecipe.steps.append(objectsIn: createRecipeViewModel.recipeSteps)
         newRecipe.ingredients.append(objectsIn: createRecipeViewModel.recipeIngredients)
@@ -171,8 +171,8 @@ struct CreateRecipeView: View {
             createRecipeViewModel.recipeDescription.count == 0 ||
             createRecipeViewModel.recipeIngredients.count == 0 ||
             createRecipeViewModel.recipeSteps.count == 0 ||
-            createRecipeViewModel.recipeImage == nil {
-            // || createRecipeViewModel.recipeCategory.name == ""
+            createRecipeViewModel.recipeImage == nil ||
+            createRecipeViewModel.recipeCategory.name == "" {
             result = false
         }
         return result
